@@ -3197,6 +3197,13 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
   font-size:18px;
 }
 
+.round-icon-slot.no-icon-circle{
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  overflow:visible;
+}
+
 .round-heading{
   position:relative;
 }
@@ -3747,6 +3754,206 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
   pointer-events:auto !important;
 }
 
+.winners-slide{
+  position:absolute;
+  inset:0;
+  z-index:118;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+.winners-slide.active{
+  visibility:visible;
+}
+
+.winners-copy{
+  position:absolute;
+  left:clamp(58px,6.2vw,118px);
+  top:49%;
+  transform:translateY(-50%);
+  z-index:6;
+  width:min(42vw,620px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  gap:clamp(22px,3.3vh,42px);
+}
+
+.winners-small{
+  font-weight:900;
+  font-size:clamp(44px,5.2vw,86px);
+  line-height:.9;
+  letter-spacing:-2px;
+  color:#3f3f42;
+}
+
+.winners-gradient{
+  font-weight:900;
+  font-size:clamp(54px,6.4vw,106px);
+  line-height:.86;
+  letter-spacing:-3px;
+  background:linear-gradient(90deg,var(--purple),var(--magenta),var(--orange));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.winners-network{
+  position:absolute;
+  right:clamp(56px,6.2vw,130px);
+  top:49%;
+  width:min(46vw,710px);
+  aspect-ratio:1;
+  transform:translateY(-50%);
+  z-index:5;
+}
+
+.winners-network::before{
+  content:"";
+  position:absolute;
+  inset:2%;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(255,255,255,.96) 0 28%,rgba(247,249,253,.78) 48%,rgba(228,235,247,.50) 72%,transparent 100%),
+    repeating-radial-gradient(circle at 50% 50%,rgba(41,16,154,.06) 0 1px,transparent 1px 26px);
+  filter:drop-shadow(0 18px 38px rgba(18,27,45,.10));
+}
+
+.winner-ring{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:43%;
+  height:43%;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  border:7px solid transparent;
+  background:
+    linear-gradient(rgba(255,255,255,.38),rgba(255,255,255,.38)) padding-box,
+    conic-gradient(from 210deg,var(--purple),var(--magenta),var(--orange),var(--purple)) border-box;
+  box-shadow:0 0 0 1px rgba(41,16,154,.04),0 10px 28px rgba(41,16,154,.08);
+}
+
+.winner-ring::before,
+.winner-ring::after{
+  content:"";
+  position:absolute;
+  inset:-10px;
+  border-radius:50%;
+  border:1px solid rgba(41,16,154,.08);
+}
+
+.winner-center-logo{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:30%;
+  transform:translate(-50%,-50%);
+  z-index:5;
+}
+
+.winner-center-logo img{
+  width:100%;
+  height:auto;
+  display:block;
+}
+
+.winner-bubble{
+  --x:50%;
+  --y:50%;
+  --dx:0px;
+  --dy:0px;
+  position:absolute;
+  left:var(--x);
+  top:var(--y);
+  width:clamp(76px,7vw,122px);
+  height:clamp(76px,7vw,122px);
+  border-radius:50%;
+  transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.2);
+  opacity:0;
+  z-index:6;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:radial-gradient(circle at 34% 24%,#fff 0 18%,#fbfcfe 48%,#f3f6fb 100%);
+  border:1px solid rgba(190,198,212,.75);
+  box-shadow:0 10px 20px rgba(18,27,45,.13), inset 0 1px 0 #fff;
+  overflow:visible;
+}
+
+.winner-bubble.float-active{
+  animation:winnerBubbleDrift 9s ease-in-out infinite;
+}
+
+.winner-bubble img{
+  width:72%;
+  height:72%;
+  object-fit:contain;
+  display:block;
+  background:transparent;
+}
+
+.winner-bubble.empty::after{
+  content:attr(data-name);
+  font-weight:900;
+  font-size:12px;
+  color:#29109A;
+  text-align:center;
+  padding:8px;
+}
+
+@keyframes winnerBubbleDrift{
+  0%,100%{
+    transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1);
+  }
+  33%{
+    transform:translate(calc(-50% + var(--dx) + var(--float-x, 8px)), calc(-50% + var(--dy) + var(--float-y, -6px))) scale(1.015);
+  }
+  66%{
+    transform:translate(calc(-50% + var(--dx) - var(--float-y, 6px)), calc(-50% + var(--dy) - var(--float-x, 8px))) scale(.992);
+  }
+}
+
+.stage.winners-mode .system,
+.stage.winners-mode .topic-title,
+.stage.winners-mode .agenda,
+.stage.winners-mode .opening-slide,
+.stage.winners-mode .networking-slide,
+.stage.winners-mode .video-slide,
+.stage.winners-mode .game-steps-slide,
+.stage.winners-mode .example-table-slide,
+.stage.winners-mode .example-mismatch-slide,
+.stage.winners-mode .example-wrong-order-slide,
+.stage.winners-mode .example-duplicate-company-slide,
+.stage.winners-mode .end-game-slide,
+.stage.winners-mode .round-timer-slide{
+  opacity:0 !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+
+.stage.winners-mode .winners-slide.active{
+  opacity:1 !important;
+  visibility:visible !important;
+}
+
+.stage.winners-mode .wave{
+  opacity:1 !important;
+  visibility:visible !important;
+  display:block !important;
+  z-index:80 !important;
+  pointer-events:none !important;
+  animation:waveBreath 16s ease-in-out infinite, waveGradientFlow 22s ease-in-out infinite !important;
+}
+
+.stage.winners-mode .top-logo,
+.stage.winners-mode .network{
+  z-index:130 !important;
+}
+
 
 </style>
 </head>
@@ -3796,7 +4003,7 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
 <div class="networking-slide" id="networkingSlide">
 <div class="networking-header">
 <div class="network-icon-placeholder">
-        <img src="game/networking-icon.png" alt="Networking icon" onerror="this.parentElement.classList.add('empty')">
+        <img src="game/icon.png" alt="Networking icon" onerror="this.parentElement.classList.add('empty')">
       </div>
 <div class="networking-heading">
 <div class="networking-title"><span>NETWORKING</span> CHALLENGE</div>
@@ -3805,11 +4012,11 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
 </div>
 <div class="networking-content">
 <div class="asset-block name-tag-block">
-<img alt="Name tag image" class="image-placeholder" src="game/name_tag.jpg" style="width:100%;height:100%;object-fit:contain;display:block;"/>
+<img alt="Name tag image" class="image-placeholder" src="game/name_tag.png" style="width:100%;height:100%;object-fit:contain;display:block;"/>
 <div class="asset-caption">Name tag</div>
 </div>
 <div class="asset-block card-block">
-<img alt="Interaction card image" class="image-placeholder tall" src="game/interaction_card.jpeg" style="width:100%;height:100%;object-fit:contain;display:block;"/>
+<img alt="Interaction card image" class="image-placeholder tall" src="game/interaction_card.png" style="width:100%;height:100%;object-fit:contain;display:block;"/>
 <div class="asset-caption">Interaction card</div>
 </div>
 <div class="asset-block stickers-block">
@@ -3821,7 +4028,7 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
 <div class="asset-caption">Bracelet</div>
 </div>
 <div class="asset-block pen-block">
-<img alt="Pen image" class="image-placeholder pen" src="game/pen.png" style="width:100%;height:100%;object-fit:contain;display:block;"/>
+<img alt="Pen image" class="image-placeholder pen" src="game/pen.svg" style="width:65%;height:65%;object-fit:contain;display:block;"/>
 <div class="asset-caption">Pen</div>
 </div>
 </div>
@@ -3846,7 +4053,7 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
   <div class="game-steps-slide" id="gameStepsSlide">
     <div class="game-steps-header">
       <div class="network-icon-placeholder">
-        <img src="game/networking-icon.png" alt="Networking icon" onerror="this.parentElement.classList.add('empty')">
+        <img src="game/icon.png" alt="Networking icon" onerror="this.parentElement.classList.add('empty')">
       </div>
       <div class="game-steps-heading">
         <div class="game-steps-title">NETWORKING CHALLENGE</div>
@@ -3857,7 +4064,7 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
     <div class="game-steps-content">
       <div class="step-card step-card-1">
         <div class="step-number">1</div>
-        <div class="step-icon"><img src="game/follow.png" alt="Follow icon" onerror="this.parentElement.classList.add(\'empty\')"></div>
+        <div class="step-icon"><img src="game/follow.png" alt="Follow icon" onerror="this.parentElement.classList.add('empty')"></div>
         <div class="step-text-reveal">
         <div class="step-label">Follow</div>
         <div class="step-separator"></div>
@@ -3869,7 +4076,7 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
 
       <div class="step-card step-card-2">
         <div class="step-number">2</div>
-        <div class="step-icon"><img src="game/find.png" alt="Find icon" onerror="this.parentElement.classList.add(\'empty\')"></div>
+        <div class="step-icon"><img src="game/find.png" alt="Find icon" onerror="this.parentElement.classList.add('empty')"></div>
         <div class="step-text-reveal">
         <div class="step-label">Find</div>
         <div class="step-separator"></div>
@@ -3881,7 +4088,7 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
 
       <div class="step-card step-card-3">
         <div class="step-number">3</div>
-        <div class="step-icon"><img src="game/connect.png" alt="Connect icon" onerror="this.parentElement.classList.add(\'empty\')"></div>
+        <div class="step-icon"><img src="game/connect.png" alt="Connect icon" onerror="this.parentElement.classList.add('empty')"></div>
         <div class="step-text-reveal">
         <div class="step-label">Connect</div>
         <div class="step-separator"></div>
@@ -3893,7 +4100,7 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
 
       <div class="step-card step-card-4">
         <div class="step-number">4</div>
-        <div class="step-icon"><img src="game/record.png" alt="Record icon" onerror="this.parentElement.classList.add(\'empty\')"></div>
+        <div class="step-icon"><img src="game/record.png" alt="Record icon" onerror="this.parentElement.classList.add('empty')"></div>
         <div class="step-text-reveal">
         <div class="step-label">Record</div>
         <div class="step-separator"></div>
@@ -3912,7 +4119,7 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
   <div class="example-table-slide" id="exampleTableSlide">
     <div class="example-header">
       <div class="network-icon-placeholder">
-        <img src="game/networking-icon.png" alt="Networking icon" onerror="this.parentElement.classList.add('empty')">
+        <img src="game/icon.png" alt="Networking icon" onerror="this.parentElement.classList.add('empty')">
       </div>
       <div class="example-heading">
         <div class="example-title">EXAMPLE</div>
@@ -3965,7 +4172,7 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
   <div class="example-mismatch-slide" id="exampleMismatchSlide">
     <div class="example-header">
       <div class="network-icon-placeholder">
-        <img src="game/networking-icon.png" alt="Networking icon" onerror="this.parentElement.classList.add('empty')">
+        <img src="game/icon.png" alt="Networking icon" onerror="this.parentElement.classList.add('empty')">
       </div>
       <div class="example-heading">
         <div class="example-title">EXAMPLE</div>
@@ -4020,7 +4227,7 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
   <div class="example-wrong-order-slide" id="exampleWrongOrderSlide">
     <div class="example-header">
       <div class="network-icon-placeholder">
-        <img src="game/networking-icon.png" alt="Networking icon" onerror="this.parentElement.classList.add('empty')">
+        <img src="game/icon.png" alt="Networking icon" onerror="this.parentElement.classList.add('empty')">
       </div>
       <div class="example-heading">
         <div class="example-title">EXAMPLE</div>
@@ -4075,7 +4282,7 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
   <div class="example-duplicate-company-slide" id="exampleDuplicateCompanySlide">
     <div class="example-header">
       <div class="network-icon-placeholder">
-        <img src="game/networking-icon.png" alt="Networking icon" onerror="this.parentElement.classList.add('empty')">
+        <img src="game/icon.png" alt="Networking icon" onerror="this.parentElement.classList.add('empty')">
       </div>
       <div class="example-heading">
         <div class="example-title">EXAMPLE</div>
@@ -4134,7 +4341,7 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
       </div>
       <div class="end-game-heading">
         <div class="end-game-title">END OF THE GAME</div>
-        <div class="step-description">PUT THE CARD IN THE CORRECT BASKET</div>
+        <div class="networking-subtitle">PUT THE CARD IN THE CORRECT BASKET</div>
       </div>
     </div>
 
@@ -4198,8 +4405,8 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
 
   <div class="round-timer-slide" id="roundTimerSlide">
     <div class="round-timer-header">
-      <div class="round-icon-slot round-pop">
-        <img src="game/round-icon.png" alt="Round icon" onerror="this.style.display='none';this.parentElement.classList.add('empty');">
+      <div class="round-icon-slot round-pop no-icon-circle">
+        <img src="game/connect-icon.png" alt="Round icon" onerror="this.style.display='none';this.parentElement.classList.add('empty');">
       </div>
 
       <div class="round-heading round-pop">
@@ -4252,7 +4459,7 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
   <div class="round-timer-slide round-2-slide" id="roundTimerSlide2">
     <div class="round-timer-header">
       <div class="round-icon-slot round-pop">
-        <img src="game/round-2-icon.png" alt="Round 2 icon" onerror="this.style.display='none';this.parentElement.classList.add('empty');">
+        <img src="game/discover-icon.png" alt="Round 2 icon" onerror="this.style.display='none';this.parentElement.classList.add('empty');">
       </div>
 
       <div class="round-heading round-pop">
@@ -4305,7 +4512,7 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
   <div class="round-timer-slide round-3-slide" id="roundTimerSlide3">
     <div class="round-timer-header">
       <div class="round-icon-slot round-pop">
-        <img src="game/round-3-icon.png" alt="Round 3 icon" onerror="this.style.display='none';this.parentElement.classList.add('empty');">
+        <img src="game/share-icon.png" alt="Round 3 icon" onerror="this.style.display='none';this.parentElement.classList.add('empty');">
       </div>
 
       <div class="round-heading round-pop">
@@ -4358,7 +4565,7 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
   <div class="round-timer-slide round-4-slide" id="roundTimerSlide4">
     <div class="round-timer-header">
       <div class="round-icon-slot round-pop">
-        <img src="game/round-4-icon.png" alt="Round 4 icon" onerror="this.style.display='none';this.parentElement.classList.add('empty');">
+        <img src="game/innovate-icon.png" alt="Round 4 icon" onerror="this.style.display='none';this.parentElement.classList.add('empty');">
       </div>
 
       <div class="round-heading round-pop">
@@ -4411,7 +4618,7 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
   <div class="round-timer-slide round-5-slide" id="roundTimerSlide5">
     <div class="round-timer-header">
       <div class="round-icon-slot round-pop">
-        <img src="game/round-5-icon.png" alt="Round 5 icon" onerror="this.style.display='none';this.parentElement.classList.add('empty');">
+        <img src="game/wildcard-icon.png" alt="Round 5 icon" onerror="this.style.display='none';this.parentElement.classList.add('empty');">
       </div>
 
       <div class="round-heading round-pop">
@@ -4460,6 +4667,21 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
 
 
   
+<div class="winners-slide" id="winnersSlide">
+  <div class="winners-copy">
+    <div class="winners-small winners-line">THE</div>
+    <div class="winners-gradient winners-line">NETWORKING</div>
+    <div class="winners-gradient winners-line">WINNERS</div>
+    <div class="winners-small winners-line">ARE</div>
+  </div>
+
+  <div class="winners-network" id="winnersNetwork">
+    <div class="winner-ring"></div>
+    <div class="winner-center-logo">
+      <img class="nextgen-connect-logo-img" src="./images/nextgen-connect.png" alt="NextGen Connect">
+    </div>
+  </div>
+</div>
 
 <div class="wave"></div>
 </div>
@@ -4489,6 +4711,8 @@ const roundTimerSlide2 = document.getElementById("roundTimerSlide2");
 const roundTimerSlide3 = document.getElementById("roundTimerSlide3");
 const roundTimerSlide4 = document.getElementById("roundTimerSlide4");
 const roundTimerSlide5 = document.getElementById("roundTimerSlide5");
+const winnersSlide = document.getElementById("winnersSlide");
+const winnersNetwork = document.getElementById("winnersNetwork");
 
 const LOGO_PATH = "logos/";
 
@@ -4514,6 +4738,53 @@ function applyNextGenLogoImages(){
 
 
 const companies = [];
+
+const winnerCompanies = [
+  {name:"ASML", file:"asml.svg"},
+  {name:"THERMO", file:"thermofisher.png"},
+  {name:"NXP", file:"nxp.png"},
+  {name:"VANDERLANDE", file:"vanderlande.jpg"},
+  {name:"VDL", file:"vdl.PNG"},
+  {name:"BOSCH", file:"bosch.PNG"},
+  {name:"PHILIPS", file:"philips.png"},
+  {name:"TNO", file:"tno.jpeg"},
+  {name:"SMART", file:"smart.png"},
+  {name:"DAF", file:"DAF.jpg"},
+  {name:"TE", file:"te.WEBP"}
+];
+
+function createWinnerNetwork(){
+  if(!winnersNetwork || winnersNetwork.dataset.ready === "1") return;
+  winnersNetwork.dataset.ready = "1";
+
+  const cx = 50;
+  const cy = 50;
+  const bubbleRadius = 38;
+  const startAngle = -90;
+
+  winnerCompanies.forEach((company, i) => {
+    const angleDeg = startAngle + (360 / winnerCompanies.length) * i;
+    const angle = angleDeg * Math.PI / 180;
+    const x = cx + bubbleRadius * Math.cos(angle);
+    const y = cy + bubbleRadius * Math.sin(angle);
+
+    const bubble = document.createElement("div");
+    bubble.className = "winner-bubble";
+    bubble.dataset.name = company.name;
+    bubble.style.setProperty("--x", `${x}%`);
+    bubble.style.setProperty("--y", `${y}%`);
+    bubble.style.setProperty("--float-x", `${6 + (i % 4) * 2}px`);
+    bubble.style.setProperty("--float-y", `${-5 - (i % 3) * 2}px`);
+    bubble.style.animationDelay = `${i * -0.47}s`;
+    bubble.innerHTML = `<img src="${LOGO_PATH}${company.file}" alt="${company.name}">`;
+    const img = bubble.querySelector("img");
+    img.onerror = () => {
+      img.style.display = "none";
+      bubble.classList.add("empty");
+    };
+    winnersNetwork.appendChild(bubble);
+  });
+}
 
 const state = {
   step: 1,
@@ -4894,6 +5165,8 @@ function stage1(){
   stageEl.classList.remove("round-3-timer-mode");
   stageEl.classList.remove("round-4-timer-mode");
   stageEl.classList.remove("round-5-timer-mode");
+  stageEl.classList.remove("winners-mode");
+  if(winnersSlide){ winnersSlide.classList.remove("active"); gsap.set(winnersSlide,{opacity:0, visibility:"hidden", pointerEvents:"none"}); }
   if(endGameSlide){ endGameSlide.classList.remove("active"); gsap.set(endGameSlide,{opacity:0, visibility:"hidden"}); }
   if(exampleDuplicateCompanySlide){ exampleDuplicateCompanySlide.classList.remove("active"); gsap.set(exampleDuplicateCompanySlide,{opacity:0, visibility:"hidden"}); }
   if(exampleWrongOrderSlide){ exampleWrongOrderSlide.classList.remove("active"); gsap.set(exampleWrongOrderSlide,{opacity:0, visibility:"hidden"}); }
@@ -6437,6 +6710,7 @@ function stageFinalEndGame(){
   cleanupGameStepsLayer();
 
   stageEl.classList.add("end-game-mode");
+  stageEl.classList.remove("winners-mode");
   stageEl.classList.remove("round-5-timer-mode");
   stageEl.classList.remove("round-4-timer-mode");
   stageEl.classList.remove("round-3-timer-mode");
@@ -6532,6 +6806,100 @@ function stageFinalEndGame(){
   revealEndText(".end-card-4", 5.19);
 }
 
+function stageWinners(){
+  cleanupGameStepsLayer();
+  createWinnerNetwork();
+
+  stageEl.classList.add("winners-mode");
+  stageEl.classList.remove("end-game-mode");
+  stageEl.classList.remove("round-5-timer-mode");
+  stageEl.classList.remove("round-4-timer-mode");
+  stageEl.classList.remove("round-3-timer-mode");
+  stageEl.classList.remove("round-2-timer-mode");
+  stageEl.classList.remove("round-timer-mode");
+  stageEl.classList.remove("example-duplicate-company-mode");
+  stageEl.classList.remove("example-wrong-order-mode");
+  stageEl.classList.remove("example-mismatch-mode");
+  stageEl.classList.remove("example-table-mode");
+  stageEl.classList.remove("game-steps-mode");
+  stageEl.classList.remove("game-goal-center-mode");
+  stageEl.classList.remove("game-goal-move-mode");
+  stageEl.classList.remove("video-mode");
+  stageEl.classList.remove("networking-mode");
+  stageEl.classList.remove("opening-mode");
+
+  [
+    openingSlide,
+    networkingSlide,
+    videoSlide,
+    gameStepsSlide,
+    exampleTableSlide,
+    exampleMismatchSlide,
+    exampleWrongOrderSlide,
+    exampleDuplicateCompanySlide,
+    endGameSlide,
+    roundTimerSlide,
+    roundTimerSlide2,
+    roundTimerSlide3,
+    roundTimerSlide4,
+    roundTimerSlide5
+  ].forEach(el => {
+    if(el){
+      el.classList.remove("active");
+      gsap.set(el,{opacity:0, visibility:"hidden", pointerEvents:"none"});
+    }
+  });
+
+  winnersSlide.classList.add("active");
+
+  const tl = gsap.timeline();
+  tl.set(winnersSlide, {visibility:"visible", opacity:1, pointerEvents:"none"}, 0);
+  tl.fromTo(".winners-line", {
+    opacity:0,
+    y:28,
+    scale:.94
+  }, {
+    opacity:1,
+    y:0,
+    scale:1,
+    duration:.72,
+    stagger:.16,
+    ease:"back.out(1.65)"
+  }, .12);
+  tl.fromTo(".winner-ring", {
+    opacity:0,
+    scale:.55,
+    rotation:-24
+  }, {
+    opacity:1,
+    scale:1,
+    rotation:0,
+    duration:1.05,
+    ease:"elastic.out(1,.65)"
+  }, .46);
+  tl.fromTo(".winner-center-logo", {
+    opacity:0,
+    scale:.72
+  }, {
+    opacity:1,
+    scale:1,
+    duration:.8,
+    ease:"back.out(1.7)"
+  }, .72);
+  tl.to(".winner-bubble", {
+    opacity:1,
+    scale:1,
+    duration:.78,
+    stagger:.06,
+    ease:"elastic.out(1,.55)"
+  }, .94);
+  tl.call(() => {
+    document.querySelectorAll(".winner-bubble").forEach(bubble => {
+      bubble.classList.add("float-active");
+    });
+  }, null, 1.92);
+}
+
 
 const stages = [
     stage1,
@@ -6550,7 +6918,8 @@ const stages = [
     stageRound3Timer,
     stageRound4Timer,
     stageRound5Timer,
-    stageFinalEndGame
+    stageFinalEndGame,
+    stageWinners
 ];
 let current = 0;
 
