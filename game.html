@@ -4713,6 +4713,43 @@ const roundTimerSlide4 = document.getElementById("roundTimerSlide4");
 const roundTimerSlide5 = document.getElementById("roundTimerSlide5");
 const winnersSlide = document.getElementById("winnersSlide");
 const winnersNetwork = document.getElementById("winnersNetwork");
+const slideEls = [
+  openingSlide,
+  networkingSlide,
+  videoSlide,
+  gameStepsSlide,
+  exampleTableSlide,
+  exampleMismatchSlide,
+  exampleWrongOrderSlide,
+  exampleDuplicateCompanySlide,
+  endGameSlide,
+  roundTimerSlide,
+  roundTimerSlide2,
+  roundTimerSlide3,
+  roundTimerSlide4,
+  roundTimerSlide5,
+  winnersSlide
+].filter(Boolean);
+
+const stageModeClasses = [
+  "opening-mode",
+  "networking-mode",
+  "video-mode",
+  "game-steps-mode",
+  "game-goal-center-mode",
+  "game-goal-move-mode",
+  "example-table-mode",
+  "example-mismatch-mode",
+  "example-wrong-order-mode",
+  "example-duplicate-company-mode",
+  "end-game-mode",
+  "round-timer-mode",
+  "round-2-timer-mode",
+  "round-3-timer-mode",
+  "round-4-timer-mode",
+  "round-5-timer-mode",
+  "winners-mode"
+];
 
 const LOGO_PATH = "logos/";
 
@@ -6964,8 +7001,84 @@ const nextBtn=document.getElementById("nextBtn");
 const resetBtn=document.getElementById("resetBtn");
 const openingBtn=document.getElementById("openingBtn");
 
-function goToStep(idx){
+function resetSlideShell(){
+  gsap.globalTimeline.clear();
+  gsap.killTweensOf([
+    ".networking-header",
+    ".networking-content",
+    ".networking-footer",
+    ".asset-block",
+    ".video-frame",
+    ".game-steps-header",
+    ".step-card",
+    ".step-arrow",
+    ".goal-card",
+    ".step-text-reveal",
+    ".step-label",
+    ".step-separator",
+    ".step-description",
+    ".example-header",
+    ".example-table-wrap",
+    ".example-table tbody tr",
+    ".order-panel",
+    ".check-item",
+    ".changed-dot",
+    ".example-row-outline",
+    ".changed-company",
+    ".company-outline",
+    ".end-game-header",
+    ".end-card",
+    ".end-arrow",
+    ".end-text-reveal",
+    ".end-label",
+    ".end-separator",
+    ".end-description",
+    ".round-pop",
+    ".winners-line",
+    ".winner-ring",
+    ".winner-center-logo",
+    ".winner-bubble"
+  ]);
+
+  stageModeClasses.forEach(className => stageEl.classList.remove(className));
+
+  slideEls.forEach(el => {
+    el.classList.remove("active");
+    gsap.set(el, {
+      opacity:0,
+      visibility:"hidden",
+      pointerEvents:""
+    });
+  });
+
+  gsap.set([".networking-header", ".networking-content"], {opacity:1, y:0});
+  gsap.set(".networking-footer", {opacity:1, y:0});
+  gsap.set(".asset-block", {opacity:0, y:24, scale:.98});
+  gsap.set(".video-frame", {opacity:1, scale:1});
+  gsap.set(".winner-bubble", {opacity:0, scale:.55});
+  document.querySelectorAll(".winner-bubble").forEach(bubble => {
+    bubble.classList.remove("float-active");
+  });
+
+  const presentationVideo = document.getElementById("presentationVideo");
+  if(presentationVideo) presentationVideo.pause();
+
+  clearInterval(roundTimerInterval);
+  roundTimerInterval = null;
+  roundTimerRunning = false;
+  Object.values(roundTimers).forEach(timer => {
+    clearInterval(timer.state.interval);
+    timer.state.interval = null;
+    timer.state.running = false;
+  });
+  document.querySelectorAll(".timer-start").forEach(button => {
+    button.textContent = "Start";
+  });
+}
+
+function goToStep(idx, {skipReset=false}={}){
   current = Math.max(0, Math.min(stages.length - 1, idx));
+  if(!skipReset) resetSlideShell();
   stages[current]();
 }
 
@@ -6979,7 +7092,7 @@ function showNav(){
 
 function resetPresentation(){
   current=0;
-  stage1();
+  goToStep(0);
   startBtn.style.display="flex";
   prevBtn.classList.add("hidden");
   nextBtn.classList.add("hidden");
