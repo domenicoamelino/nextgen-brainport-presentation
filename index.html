@@ -317,6 +317,23 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Montserrat
   color:transparent;
 }
 .agenda-text{font-weight:600;color:#252525;font-size:clamp(16px,1.05vw,22px);line-height:1.28}
+.agenda-lines{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:3px;
+  line-height:1.18;
+}
+.agenda-main{
+  font-weight:850;
+  font-size:clamp(18px,1.22vw,25px);
+  color:#1d1d1d;
+}
+.agenda-sub{
+  font-weight:600;
+  font-size:clamp(15px,0.98vw,20px);
+  color:#343434;
+}
 
 
 .birth-blob{
@@ -494,13 +511,39 @@ width:54px;height:54px;padding:0;font-size:24px;display:flex;align-items:center;
 
 .agenda-item.first-speaker .agenda-photo{
   right:40px;
+  width:185px;
+  height:185px;
 }
 
 .agenda-item.second-speaker .agenda-photo{
-  right:-18px;
+  right:22px;
+  width:330px;
 }
 
+.agenda-item.second-speaker{
+  padding-right:330px;
+}
 
+.agenda-photo-pair{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:14px;
+  width:100%;
+  height:100%;
+}
+
+.agenda-photo .agenda-photo-pair img{
+  flex:0 0 179px;
+  width:179px;
+  height:237px;
+}
+
+.agenda-photo .agenda-photo-pair img.thijs-photo{
+  flex-basis:125px;
+  width:125px;
+  height:166px;
+}
 .agenda-photo img{
   width:100%;
   height:100%;
@@ -1038,9 +1081,16 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
   <div class="agenda">
     <div class="agenda-title">Agenda</div>
 
+    <div class="agenda-item"><div class="time">17:00</div><div class="agenda-text">Introduction</div></div>
+
     <div class="agenda-item has-photo first-speaker">
-      <div class="time">17:00</div>
-      <div class="agenda-text">Opening Session: Albert Maas — CEO & Founder Avular</div>
+      <div class="time">17:05</div>
+      <div class="agenda-text">
+        <div class="agenda-lines">
+          <div class="agenda-main">Opening Session</div>
+          <div class="agenda-sub">Albert Maas — CEO Founder Avular</div>
+        </div>
+      </div>
       <div class="agenda-photo">
         <img src="agenda/albert.png" alt="Albert Maas" onerror="this.parentElement.classList.add('empty')">
       </div>
@@ -1048,9 +1098,17 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
 
     <div class="agenda-item has-photo second-speaker">
       <div class="time">17:20</div>
-      <div class="agenda-text">KeyNote Session: Rob van der Star — AI & Innovation Expert</div>
+      <div class="agenda-text">
+        <div class="agenda-lines">
+          <div class="agenda-main">Keynote Session</div>
+          <div class="agenda-sub">Rob van De Star and Thijs Dorsers — Robotics &amp; AI Experts</div>
+        </div>
+      </div>
       <div class="agenda-photo">
-        <img src="agenda/rob.png" alt="Rob van der Star" onerror="this.parentElement.classList.add('empty')">
+        <div class="agenda-photo-pair">
+          <img src="agenda/rob.png" alt="Rob van De Star" onerror="this.style.visibility='hidden'">
+          <img class="thijs-photo" src="agenda/thijs.png" alt="Thijs Dorsers" onerror="this.style.visibility='hidden'">
+        </div>
       </div>
     </div>
 
@@ -1745,6 +1803,13 @@ function stage5(){
   transitionToRightLocked = false;
   ringExpansionLocked = false;
   state.step = 5;
+  stageEl.classList.remove("opening-mode");
+  openingSlide.classList.remove("active");
+  gsap.set(openingSlide, {opacity:0, visibility:"hidden", pointerEvents:"none"});
+  gsap.set(system, {opacity:1, visibility:"visible"});
+  gsap.set(topicTitle, {opacity:1, visibility:"visible", y:0});
+  gsap.set(agenda, {visibility:"visible"});
+
   const tl = gsap.timeline();
   tl.to(topicTitle, {
     left:Math.max(28,window.innerWidth*0.03),
@@ -1812,8 +1877,63 @@ const nextBtn=document.getElementById("nextBtn");
 const resetBtn=document.getElementById("resetBtn");
 const openingBtn=document.getElementById("openingBtn");
 
-function goToStep(idx){
+function resetSlideShell(){
+  gsap.globalTimeline.clear();
+  gsap.killTweensOf([
+    system,
+    state,
+    bubbles,
+    birthBlobs,
+    connectors,
+    innerRing,
+    outerRing,
+    mainBubble,
+    topicTitle,
+    agenda,
+    agendaItems,
+    openingSlide,
+    ".opening-content"
+  ]);
+
+  stageEl.classList.remove("opening-mode");
+  openingSlide.classList.remove("active");
+  gsap.set(openingSlide, {
+    opacity:0,
+    visibility:"hidden",
+    pointerEvents:"none"
+  });
+  gsap.set(".opening-content", {
+    opacity:0,
+    y:28
+  });
+  gsap.set(system, {
+    opacity:1,
+    visibility:"visible"
+  });
+  gsap.set(topicTitle, {
+    opacity:0,
+    y:24,
+    scale:.96
+  });
+  gsap.set(agenda, {
+    opacity:0,
+    y:22,
+    visibility:"visible"
+  });
+  gsap.set(agendaItems, {
+    opacity:0,
+    y:12
+  });
+
+  transitionToRightLocked = false;
+  ringExpansionLocked = false;
+  spawning.clear();
+  positioningLocked.clear();
+}
+
+function goToStep(idx, {skipReset=false}={}){
   current=Math.max(0,Math.min(stages.length-1,idx));
+  if(!skipReset) resetSlideShell();
   stages[current]();
 }
 
@@ -1827,7 +1947,7 @@ function showNav(){
 
 function resetPresentation(){
   current=0;
-  stage1();
+  goToStep(0);
   startBtn.style.display="flex";
   prevBtn.classList.add("hidden");
   nextBtn.classList.add("hidden");
@@ -1858,7 +1978,7 @@ resetBtn.addEventListener("click",(e)=>{
 
 openingBtn.addEventListener("click",(e)=>{
   e.stopPropagation();
-  stage6OpeningSession();
+  goToStep(5);
 });
 
 document.body.addEventListener("click",(e)=>{
