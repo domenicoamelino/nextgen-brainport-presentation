@@ -3249,6 +3249,7 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
 }
 
 .round-timer-box{
+  position:relative;
   justify-self:end;
   width:100%;
   border:3px solid #444;
@@ -3257,21 +3258,28 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
   box-shadow:0 16px 42px rgba(18,27,45,.08);
   padding:14px 18px 12px;
   display:grid;
-  grid-template-columns:58px 1fr;
-  grid-template-rows:auto auto auto;
+  grid-template-columns:auto auto;
+  grid-template-rows:auto auto;
   align-items:center;
-  column-gap:12px;
+  justify-content:center;
+  column-gap:14px;
   backdrop-filter:blur(10px);
 }
 
 .timer-emoji{
-  grid-row:1/3;
-  font-size:52px;
+  position:static;
+  grid-column:1;
+  grid-row:1;
+  transform:none;
+  font-size:78px;
   line-height:1;
 }
 
 .timer-display{
-  font-size:clamp(46px,4.8vw,78px);
+  grid-column:2;
+  grid-row:1;
+  text-align:center;
+  font-size:clamp(60px,6.2vw,96px);
   line-height:.9;
   font-weight:900;
   color:#333;
@@ -3280,38 +3288,13 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
 }
 
 .timer-label{
-  grid-column:2;
-  font-size:20px;
+  grid-column:1 / -1;
+  grid-row:2;
+  font-size:23px;
   font-weight:800;
   color:#4a4a4a;
   text-align:center;
   margin-top:4px;
-}
-
-.timer-actions{
-  grid-column:2;
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin-top:6px;
-}
-
-.timer-actions button{
-  height:30px;
-  min-width:76px;
-  padding:0 16px;
-  font-size:16px;
-  box-shadow:none;
-}
-
-.timer-actions .timer-start{
-  background:linear-gradient(90deg,var(--purple),var(--magenta));
-  color:#fff;
-}
-
-.timer-actions .timer-reset{
-  background:#777;
-  color:#fff;
 }
 
 .round-timer-box.time-up{
@@ -4025,7 +4008,6 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
 <div class="asset-caption">Name tag</div>
 </div>
 <div class="asset-block card-block">
-<img alt="Interaction card image" class="image-placeholder tall" src="game/interaction_card.png" style="width:80%;height:80%;object-fit:contain;display:block;"/>
 <div class="asset-caption">Interaction card</div>
 </div>
 <div class="asset-block stickers-block">
@@ -4037,7 +4019,7 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
 <div class="asset-caption">Bracelet</div>
 </div>
 <div class="asset-block pen-block">
-<img alt="Pen image" class="image-placeholder pen" src="game/pen.svg" style="width:35%;height:35%;object-fit:contain;display:block;"/>
+<img alt="Pen image" class="image-placeholder pen" src="game/pen.svg" style="width:65%;height:65%;object-fit:contain;display:block;"/>
 <div class="asset-caption">Pen</div>
 </div>
 </div>
@@ -4426,12 +4408,8 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
 
       <div class="round-timer-box round-pop" id="roundTimerBox1">
         <div class="timer-emoji">⏱</div>
-        <div class="timer-display" id="timerDisplay1">05:00</div>
-        <div class="timer-label">Time remaining</div>
-        <div class="timer-actions">
-          <button class="timer-start" id="timerStartBtn1" type="button">Start</button>
-          <button class="timer-reset" id="timerResetBtn1" type="button">Reset</button>
-        </div>
+        <div class="timer-display">5:00</div>
+        <div class="timer-label">Round Duration Time</div>
       </div>
     </div>
 
@@ -4479,12 +4457,8 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
 
       <div class="round-timer-box round-pop" id="roundTimerBox2">
         <div class="timer-emoji">⏱</div>
-        <div class="timer-display" id="timerDisplay2">05:00</div>
-        <div class="timer-label">Time remaining</div>
-        <div class="timer-actions">
-          <button class="timer-start" id="timerStartBtn2" type="button">Start</button>
-          <button class="timer-reset" id="timerResetBtn2" type="button">Reset</button>
-        </div>
+        <div class="timer-display">5:00</div>
+        <div class="timer-label">Round Duration Time</div>
       </div>
     </div>
 
@@ -4532,12 +4506,8 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
 
       <div class="round-timer-box round-pop" id="roundTimerBox3">
         <div class="timer-emoji">⏱</div>
-        <div class="timer-display" id="timerDisplay3">05:00</div>
-        <div class="timer-label">Time remaining</div>
-        <div class="timer-actions">
-          <button class="timer-start" id="timerStartBtn3" type="button">Start</button>
-          <button class="timer-reset" id="timerResetBtn3" type="button">Reset</button>
-        </div>
+        <div class="timer-display">5:00</div>
+        <div class="timer-label">Round Duration Time</div>
       </div>
     </div>
 
@@ -4585,12 +4555,8 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
 
       <div class="round-timer-box round-pop" id="roundTimerBox4">
         <div class="timer-emoji">⏱</div>
-        <div class="timer-display" id="timerDisplay4">05:00</div>
-        <div class="timer-label">Time remaining</div>
-        <div class="timer-actions">
-          <button class="timer-start" id="timerStartBtn4" type="button">Start</button>
-          <button class="timer-reset" id="timerResetBtn4" type="button">Reset</button>
-        </div>
+        <div class="timer-display">5:00</div>
+        <div class="timer-label">Round Duration Time</div>
       </div>
     </div>
 
@@ -4638,12 +4604,8 @@ button.secondary{background:#fff;color:#444;border:1px solid #e6e9f0}
 
       <div class="round-timer-box round-pop" id="roundTimerBox5">
         <div class="timer-emoji">⏱</div>
-        <div class="timer-display" id="timerDisplay5">05:00</div>
-        <div class="timer-label">Time remaining</div>
-        <div class="timer-actions">
-          <button class="timer-start" id="timerStartBtn5" type="button">Start</button>
-          <button class="timer-reset" id="timerResetBtn5" type="button">Reset</button>
-        </div>
+        <div class="timer-display">5:00</div>
+        <div class="timer-label">Round Duration Time</div>
       </div>
     </div>
 
@@ -4793,8 +4755,8 @@ const winnerCompanies = [
   {name:"VDL", file:"vdl.PNG"},
   {name:"BOSCH", file:"bosch.PNG"},
   {name:"PHILIPS", file:"philips.png"},
-  {name:"TNO", file:"tno.jpeg"},
-  {name:"SMART", file:"smart.png"},
+  {name:"TNO", file:"tno-transparent.png"},
+  {name:"SMART", file:"smart-transparent.png"},
   {name:"DAF", file:"DAF.jpg"},
   {name:"TE", file:"te.WEBP"}
 ];
@@ -6691,7 +6653,6 @@ function stageRoundTimer(){
     roundTimerSlide.classList.add("active");
   }
 
-  setupRoundTimer(1).bind();
   animateRoundSlide("#roundTimerSlide");
 }
 
@@ -6724,7 +6685,6 @@ function stageRound2Timer(){
     roundTimerSlide2.classList.add("active");
   }
 
-  setupRoundTimer(2).bind();
   animateRoundSlide("#roundTimerSlide2");
 }
 
@@ -6756,7 +6716,6 @@ function stageRound3Timer(){
     roundTimerSlide3.classList.add("active");
   }
 
-  setupRoundTimer(3).bind();
   animateRoundSlide("#roundTimerSlide3");
 }
 
@@ -6789,7 +6748,6 @@ function stageRound4Timer(){
     roundTimerSlide4.classList.add("active");
   }
 
-  setupRoundTimer(4).bind();
   animateRoundSlide("#roundTimerSlide4");
 }
 
@@ -6823,7 +6781,6 @@ function stageRound5Timer(){
     roundTimerSlide5.classList.add("active");
   }
 
-  setupRoundTimer(5).bind();
   animateRoundSlide("#roundTimerSlide5");
 }
 
