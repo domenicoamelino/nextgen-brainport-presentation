@@ -7097,7 +7097,20 @@ openingBtn.addEventListener("click",(e)=>{
 
 /* Keyboard navigation kept for remote-controller compatibility. */
 document.addEventListener("keydown",(e)=>{
+  if(e.key===" " && stageEl.classList.contains("video-mode")){
+    e.preventDefault();
+    const presentationVideo = document.getElementById("presentationVideo");
+    if(presentationVideo){
+      if(presentationVideo.paused || presentationVideo.ended){
+        presentationVideo.play();
+      }else{
+        presentationVideo.pause();
+      }
+    }
+    return;
+  }
   if(e.key==="ArrowRight" || e.key===" " || e.key==="Enter"){
+    if(e.key===" ") e.preventDefault();
     if(startBtn.style.display!=="none") showNav();
     goToStep(current+1);
   }
